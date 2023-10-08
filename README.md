@@ -10,6 +10,7 @@
 ![image](https://github.com/sideproject-sku/backend_AI/assets/109807723/59240602-6968-42e8-a5b0-cce7f087cbea)
 
 10/9
+반투명화해서 시각화 성공
 ![image](https://github.com/sideproject-sku/backend_AI/assets/109807723/8c05d522-9d5e-4a87-86fd-08e25f01c30e)
 
 
