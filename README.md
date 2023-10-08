@@ -1,10 +1,12 @@
 # 백엔드 딥러닝 플라스크 서버 
 
 
-#진행 현황
+# 진행 현황
 
 9/20 ~
 모델 서치 및 학습 (ResNet-50)
+
+
 ![image](https://github.com/sideproject-sku/backend_AI/assets/109807723/59240602-6968-42e8-a5b0-cce7f087cbea)
 
 10/9
