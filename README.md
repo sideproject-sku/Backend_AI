@@ -18,3 +18,7 @@
 해상도 문제점 : 사람이 많으면 성능적으로 떨어짐
 
 ![image](https://github.com/sideproject-sku/backend_AI/assets/109807723/c39ccce8-1070-4494-8d1d-c118cbe58aa9)
+
+
+
+REST API 방식 사용 시작
