@@ -17,7 +17,7 @@ img_transform = standard_transforms.Compose([
         standard_transforms.Normalize(*mean_std)
     ])
 
-model_path = 'best.pth'
+model_path = 'model.pth'
 file_path = "test/"                                        
 
 def main(camera_ID):
