@@ -17,25 +17,26 @@ img_transform = standard_transforms.Compose([
         standard_transforms.Normalize(*mean_std)
     ])
 
+model_path = 'best.pth'
+file_path = "test/"                                        
 
-model_path = 'model.pth'
-
-def main():
-    file_path = "test/test6.mp4"                                        
+def main(camera_ID):
     net = CrowdCounter(cfg.GPU_ID,cfg.NET)
     net.load_state_dict(torch.load(model_path))
     net.cuda()
     net.eval()
 
-    cam  = cv2.VideoCapture(file_path)
+    cam  = cv2.VideoCapture(file_path + camera_ID+'.mp4')
 
     if not cam.isOpened():
-        print("Invalid")
+        print("disconnected")
         exit()
 
     alpha = 0.5
 
     peoples = []
+
+    inc = False
 
     while True:
 
@@ -62,14 +63,25 @@ def main():
 
             cv2.putText(res,'counting : ' + str(int(pred)), (50,50), cv2.FONT_ITALIC, 1, (0,0,255), 2)
 
-            if pred > peoples[-1]:
+            previous_number = None
+
+
+            for number in peoples:
+                if previous_number is None or number > previous_number:
+                    inc = True
+                else:
+                    inc = False
+                previous_number = number
+
+        
+
+            if inc:
                 top_left = (10, 10)  # (x, y) 좌표
                 bottom_right = (res.shape[1] - 10, res.shape[0] - 10)
                 cv2.rectangle(res, top_left, bottom_right, (0, 0, 255), 5) #경고표시
 
             status, buffer = cv2.imencode('.jpg',res)
             res = buffer.tobytes()
-
             yield (b'--frame\r\n'
                      b'Content-Type: image/jpeg\r\n\r\n' + res + b'\r\n')
         else:
