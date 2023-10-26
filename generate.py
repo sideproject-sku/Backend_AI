@@ -17,7 +17,7 @@ img_transform = standard_transforms.Compose([
         standard_transforms.Normalize(*mean_std)
     ])
 
-model_path = 'model.pth'
+model_path = 'best.pth'
 file_path = "test/"                                        
 
 def main(camera_ID):
@@ -34,8 +34,7 @@ def main(camera_ID):
 
     alpha = 0.5
 
-    peoples = []
-
+    threshold = 1000
     inc = False
 
     while True:
@@ -63,22 +62,22 @@ def main(camera_ID):
 
             cv2.putText(res,'counting : ' + str(int(pred)), (50,50), cv2.FONT_ITALIC, 1, (0,0,255), 2)
 
-            previous_number = None
 
+            # R 채널 추출
+            tmp = np.unique(pred_map[:,:,2],return_counts=True)[-1][-1]
 
-            for number in peoples:
-                if previous_number is None or number > previous_number:
-                    inc = True
-                else:
-                    inc = False
-                previous_number = number
-
-        
+            if threshold < tmp:
+                inc = True
+                threshold = tmp
+            else:
+                inc = False
+            
 
             if inc:
                 top_left = (10, 10)  # (x, y) 좌표
                 bottom_right = (res.shape[1] - 10, res.shape[0] - 10)
                 cv2.rectangle(res, top_left, bottom_right, (0, 0, 255), 5) #경고표시
+                cv2.putText(res,'warninig !!!', (480,50), cv2.FONT_ITALIC, 1, (0,0,255), 2)
 
             status, buffer = cv2.imencode('.jpg',res)
             res = buffer.tobytes()
